@@ -41,6 +41,7 @@ export async function POST(req: Request) {
     if (e instanceof DatabaseError) {
       return NextResponse.json({ error: "Problema con la Base de Datos" }, { status: 503 });
     }
-    return NextResponse.json({ error: "Error interno" }, { status: 500 });
+    console.error("Login error:", e);
+    return NextResponse.json({ error: "Error interno", detail: e instanceof Error ? e.message : String(e) }, { status: 500 });
   }
 }

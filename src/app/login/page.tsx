@@ -61,7 +61,7 @@ export default function LoginPage() {
                 type="text"
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
-                placeholder="admin"
+                placeholder="Usuario"
                 autoFocus
               />
             </div>
@@ -77,7 +77,7 @@ export default function LoginPage() {
                 type="password"
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
-                placeholder="admin123"
+                placeholder="Contraseña"
               />
             </div>
           </div>

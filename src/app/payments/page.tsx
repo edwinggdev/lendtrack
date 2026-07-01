@@ -49,8 +49,8 @@ export default function PaymentsPage() {
       <main className="px-margin-mobile pt-stack-lg pb-24 flex flex-col gap-stack-lg">
         <section className="flex justify-between items-center">
           <div>
-            <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Payments</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant">{payments.length} total payments</p>
+            <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Pagos</h2>
+            <p className="font-body-md text-body-md text-on-surface-variant">{payments.length} total pagos</p>
           </div>
         </section>
 
@@ -66,7 +66,7 @@ export default function PaymentsPage() {
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
             <input
               className="w-full h-touch-target pl-10 pr-4 bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all font-body-md text-body-md"
-              placeholder="Search by client, description, or amount..."
+              placeholder="Buscar por cliente, descripcion, o monto..."
               type="text"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(0); }}
@@ -77,7 +77,7 @@ export default function PaymentsPage() {
         <div className="space-y-stack-md">
           {paged.length === 0 && (
             <p className="text-center text-on-surface-variant py-10">
-              {payments.length === 0 ? "No payments recorded yet." : "No payments match your search."}
+              {payments.length === 0 ? "No hay pagos guardados." : "No pagos encontrados."}
             </p>
           )}
           {paged.map((p) => (
