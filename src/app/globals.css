@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-tertiary-fixed-dim: #dec29a;
+  --color-tertiary: #000000;
+  --color-on-primary-fixed: #131b2e;
+  --color-primary-fixed-dim: #bec6e0;
+  --color-surface-tint: #565e74;
+  --color-outline: #76777d;
+  --color-on-background: #0b1c30;
+  --color-on-secondary-fixed: #00174b;
+  --color-on-tertiary: #ffffff;
+  --color-surface-bright: #f8f9ff;
+  --color-on-secondary-fixed-variant: #003ea8;
+  --color-on-error-container: #93000a;
+  --color-on-tertiary-container: #98805d;
+  --color-on-primary-container: #7c839b;
+  --color-tertiary-fixed: #fcdeb5;
+  --color-on-surface: #0b1c30;
+  --color-outline-variant: #c6c6cd;
+  --color-on-tertiary-fixed: #271901;
+  --color-primary: #000000;
+  --color-on-primary-fixed-variant: #3f465c;
+  --color-surface-container-highest: #d3e4fe;
+  --color-secondary-fixed-dim: #b4c5ff;
+  --color-background: #f8f9ff;
+  --color-surface-container-low: #eff4ff;
+  --color-inverse-on-surface: #eaf1ff;
+  --color-primary-fixed: #dae2fd;
+  --color-on-primary: #ffffff;
+  --color-inverse-primary: #bec6e0;
+  --color-tertiary-container: #271901;
+  --color-surface-variant: #d3e4fe;
+  --color-on-secondary: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-surface-variant: #45464d;
+  --color-surface-container-high: #dce9ff;
+  --color-error: #ba1a1a;
+  --color-surface: #f8f9ff;
+  --color-on-tertiary-fixed-variant: #574425;
+  --color-surface-dim: #cbdbf5;
+  --color-primary-container: #131b2e;
+  --color-surface-container: #e5eeff;
+  --color-on-error: #ffffff;
+  --color-inverse-surface: #213145;
+  --color-on-secondary-container: #fefcff;
+  --color-secondary-container: #316bf3;
+  --color-secondary: #0051d5;
+  --color-secondary-fixed: #dbe1ff;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-body-md: "Inter", sans-serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-title-md: "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-amount-display: "Inter", sans-serif;
+  --font-headline-lg-mobile: "Inter", sans-serif;
+  --font-label-md: "Inter", sans-serif;
+
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-title-md: 18px;
+  --text-title-md--line-height: 24px;
+  --text-title-md--font-weight: 600;
+  --text-display: 36px;
+  --text-display--line-height: 44px;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+  --text-amount-display: 32px;
+  --text-amount-display--line-height: 40px;
+  --text-amount-display--letter-spacing: -0.02em;
+  --text-amount-display--font-weight: 700;
+  --text-headline-lg-mobile: 24px;
+  --text-headline-lg-mobile--line-height: 30px;
+  --text-headline-lg-mobile--font-weight: 600;
+  --text-headline-lg: 28px;
+  --text-headline-lg--line-height: 34px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 600;
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--letter-spacing: 0.05em;
+  --text-label-md--font-weight: 500;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  --spacing-base: 4px;
+  --spacing-stack-sm: 8px;
+  --spacing-margin-tablet: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-stack-lg: 24px;
+  --spacing-stack-md: 16px;
+  --spacing-gutter: 16px;
+  --spacing-touch-target: 48px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100dvh;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
