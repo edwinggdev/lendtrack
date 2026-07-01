@@ -6,7 +6,7 @@ import { useAuth } from "./AuthProvider";
 
 export default function TopAppBar() {
   const [open, setOpen] = useState(false);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   function handleCerrar() {
     setOpen(false);
@@ -40,6 +40,16 @@ export default function TopAppBar() {
                 <span className="material-symbols-outlined text-on-surface-variant">payments</span>
                 F pago
               </Link>
+              {user?.usuario === "admin" && (
+                <Link
+                  href="/usuarios"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 font-body-lg text-body-lg text-on-surface hover:bg-surface-container-low transition-colors"
+                >
+                  <span className="material-symbols-outlined text-on-surface-variant">group</span>
+                  Usuarios
+                </Link>
+              )}
               <button
                 onClick={handleCerrar}
                 className="w-full flex items-center gap-3 px-4 py-3 font-body-lg text-body-lg text-on-surface hover:bg-surface-container-low transition-colors"
