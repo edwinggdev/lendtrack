@@ -16,12 +16,12 @@ export async function POST(req: Request) {
     const user = await usuarios.findOne({ usuario });
 
     if (!user) {
-      return NextResponse.json({ error: "Credenciales invalidas" }, { status: 401 });
+      return NextResponse.json({ error: "Usuario inválido" }, { status: 401 });
     }
 
     const valid = await bcrypt.compare(contrasena, user.contrasena);
     if (!valid) {
-      return NextResponse.json({ error: "Credenciales invalidas" }, { status: 401 });
+      return NextResponse.json({ error: "Contraseña invalida" }, { status: 401 });
     }
 
     if (user.status !== "activo") {

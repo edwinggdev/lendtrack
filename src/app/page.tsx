@@ -71,7 +71,7 @@ export default async function Dashboard() {
               <span className="font-label-md text-label-md text-on-surface-variant">Activos</span>
             </div>
             <p className="font-headline-lg-mobile text-headline-lg-mobile">{data.activeLoans}</p>
-            <p className="font-body-md text-body-md text-on-surface-variant mt-1">Loans processing</p>
+            <p className="font-body-md text-body-md text-on-surface-variant mt-1">Prestamos</p>
           </div>
 
           <div className="bg-surface-container-lowest p-5 rounded-xl shadow-[0_4px_12px_rgba(15,23,42,0.08)] border border-outline-variant/30">

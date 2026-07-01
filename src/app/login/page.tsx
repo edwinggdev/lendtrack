@@ -46,8 +46,8 @@ export default function LoginPage() {
           <div className="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mx-auto mb-4">
             <span className="material-symbols-outlined text-on-secondary-container text-[40px]">account_balance</span>
           </div>
-          <h1 className="font-display text-headline-lg text-secondary">LendTrack</h1>
-          <p className="font-body-md text-body-md text-on-surface-variant mt-1">Loan Management System</p>
+          <h1 className="font-display text-headline-lg text-secondary">PrestaTrack</h1>
+          <p className="font-body-md text-body-md text-on-surface-variant mt-1">Sistema de Manejo de Prestamos</p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(15,23,42,0.08)] border border-outline-variant/30 space-y-stack-md">
