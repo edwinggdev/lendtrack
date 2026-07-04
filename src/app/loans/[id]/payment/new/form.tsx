@@ -143,7 +143,7 @@ export default function PaymentForm({
                   id="descripcion"
                   name="descripcion"
                   placeholder="Payment note..."
-                  defaultValue="Monthly installment"
+                  defaultValue=""
                 />
               </div>
             </div>
