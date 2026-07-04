@@ -43,7 +43,7 @@ export async function getPrestamos(): Promise<PrestamoWithStats[]> {
   return allPrestamos.map((p) => {
     const loanPagos = allPagos.filter((pg) => pg.prestamoId === p._id!.toString());
     const totalPaid = loanPagos.reduce((sum, pg) => sum + pg.valor, 0);
-    const balance = p.monto - totalPaid;
+    const balance = (p.capital || p.monto) - totalPaid;
     return {
       ...p,
       clienteNombre: clienteMap.get(p.clienteId) || "Unknown",
@@ -57,10 +57,19 @@ export async function getPrestamos(): Promise<PrestamoWithStats[]> {
 export async function createPrestamo(formData: FormData) {
   const prestamos = await getCollection<Prestamo>("Prestamo");
   const consecutivo = await getNextSequence("prestamo");
+  const monto = parseFloat(formData.get("monto") as string);
+  const interes = parseFloat(formData.get("interes") as string) || 0;
+  const capital = parseFloat(formData.get("capital") as string) || monto;
+  const cuotas = parseInt(formData.get("cuotas") as string) || 1;
+  const periodicidad = (formData.get("periodicidad") as "mensual" | "semanal") || "mensual";
   await prestamos.insertOne({
     consecutivo,
     fecha: new Date(formData.get("fecha") as string),
-    monto: parseFloat(formData.get("monto") as string),
+    monto,
+    capital,
+    interes,
+    cuotas,
+    periodicidad,
     descripcion: formData.get("descripcion") as string,
     clienteId: formData.get("clienteId") as string,
   });
@@ -103,7 +112,7 @@ export async function getPagosByPrestamo(prestamoId: string) {
 
   const clienteMap = new Map(allClientes.map((c) => [c._id!.toString(), c.nombre]));
   const totalPaid = allPagos.reduce((sum, p) => sum + p.valor, 0);
-  const balance = prestamo ? prestamo.monto - totalPaid : 0;
+  const balance = prestamo ? prestamo.capital - totalPaid : 0;
 
   return {
     prestamo: prestamo
@@ -112,6 +121,10 @@ export async function getPagosByPrestamo(prestamoId: string) {
           consecutivo: prestamo.consecutivo,
           fecha: prestamo.fecha,
           monto: prestamo.monto,
+          capital: prestamo.capital,
+          interes: prestamo.interes,
+          cuotas: prestamo.cuotas,
+          periodicidad: prestamo.periodicidad,
           descripcion: prestamo.descripcion,
           clienteId: prestamo.clienteId,
           clienteNombre: clienteMap.get(prestamo.clienteId) || "Unknown",
@@ -259,11 +272,15 @@ export async function createFormaPago(formData: FormData) {
   });
 }
 
-export async function updatePrestamo(prestamoId: string, data: { monto?: number; descripcion?: string }) {
+export async function updatePrestamo(prestamoId: string, data: { monto?: number; descripcion?: string; capital?: number; interes?: number; cuotas?: number; periodicidad?: "mensual" | "semanal" }) {
   const prestamos = await getCollection<Prestamo>("Prestamo");
   const update: Record<string, unknown> = {};
   if (data.monto !== undefined) update.monto = data.monto;
   if (data.descripcion !== undefined) update.descripcion = data.descripcion;
+  if (data.capital !== undefined) update.capital = data.capital;
+  if (data.interes !== undefined) update.interes = data.interes;
+  if (data.cuotas !== undefined) update.cuotas = data.cuotas;
+  if (data.periodicidad !== undefined) update.periodicidad = data.periodicidad;
   await prestamos.updateOne({ _id: new ObjectId(prestamoId) }, { $set: update });
 }
 

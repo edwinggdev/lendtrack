@@ -38,6 +38,10 @@ export default async function LoanDetailPage(props: { params: Promise<{ id: stri
             prestamoId={id}
             initialMonto={prestamo.monto}
             initialDescripcion={prestamo.descripcion}
+            initialInteres={prestamo.interes}
+            initialCapital={prestamo.capital}
+            initialCuotas={prestamo.cuotas}
+            initialPeriodicidad={prestamo.periodicidad}
           />
         </section>
 
@@ -54,9 +58,9 @@ export default async function LoanDetailPage(props: { params: Promise<{ id: stri
           </div>
           <div className="grid grid-cols-3 gap-4 p-3 bg-surface-container-low rounded-lg mb-4">
             <div>
-              <p className="text-on-surface-variant text-label-md mb-1">Monto</p>
+              <p className="text-on-surface-variant text-label-md mb-1">Capital</p>
               <p className="font-title-md text-on-surface">
-                ${prestamo.monto.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                ${prestamo.capital.toLocaleString("en-US", { minimumFractionDigits: 2 })}
               </p>
             </div>
             <div>
@@ -78,11 +82,11 @@ export default async function LoanDetailPage(props: { params: Promise<{ id: stri
                 className={`h-full rounded-full transition-all ${
                   prestamo.isFullyPaid ? "bg-green-500" : prestamo.totalPaid > 0 ? "bg-secondary-container" : "bg-error/40"
                 }`}
-                style={{ width: `${Math.min((prestamo.totalPaid / prestamo.monto) * 100, 100)}%` }}
+                style={{ width: `${Math.min((prestamo.totalPaid / prestamo.capital) * 100, 100)}%` }}
               />
             </div>
             <span className="font-label-md text-label-md text-on-surface-variant">
-              {prestamo.monto > 0 ? Math.round((prestamo.totalPaid / prestamo.monto) * 100) : 0}%
+              {prestamo.capital > 0 ? Math.round((prestamo.totalPaid / prestamo.capital) * 100) : 0}%
             </span>
           </div>
         </div>

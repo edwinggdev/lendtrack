@@ -10,6 +10,7 @@ interface Loan {
   consecutivo: number;
   fecha: string;
   monto: number;
+  capital: number;
   descripcion: string;
   clienteId: string;
   clienteNombre: string;
@@ -38,7 +39,7 @@ export default function LoansPage() {
     return (
       loan.clienteNombre.toLowerCase().includes(q) ||
       loan.descripcion.toLowerCase().includes(q) ||
-      `$${loan.monto}`.includes(q)
+      `$${loan.capital}`.includes(q)
     );
   });
 
@@ -68,7 +69,7 @@ export default function LoansPage() {
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
             <input
               className="w-full h-touch-target pl-10 pr-4 bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all font-body-md text-body-md"
-              placeholder="Search by client, description, or amount..."
+              placeholder="Busca por cliente, descripcion, o monto..."
               type="text"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(0); }}
@@ -101,9 +102,9 @@ export default function LoansPage() {
               <Link href={`/loans/${loan._id}`} className="block active:scale-[0.98] transition-transform">
                 <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
                   <div>
-                    <p className="text-on-surface-variant text-label-md mb-1">Monto</p>
+                    <p className="text-on-surface-variant text-label-md mb-1">Capital</p>
                     <p className="font-title-md text-on-surface">
-                      ${loan.monto.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                      ${loan.capital.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                     </p>
                   </div>
                   <div>
@@ -129,11 +130,11 @@ export default function LoansPage() {
                     className={`h-full rounded-full transition-all ${
                       loan.isFullyPaid ? "bg-green-500" : loan.totalPaid > 0 ? "bg-secondary-container" : "bg-error/40"
                     }`}
-                    style={{ width: `${Math.min((loan.totalPaid / loan.monto) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((loan.totalPaid / loan.capital) * 100, 100)}%` }}
                   />
                 </div>
                 <span className="font-label-md text-label-md text-on-surface-variant">
-                  {loan.monto > 0 ? Math.round((loan.totalPaid / loan.monto) * 100) : 0}%
+                  {loan.capital > 0 ? Math.round((loan.totalPaid / loan.capital) * 100) : 0}%
                 </span>
               </div>
             </div>

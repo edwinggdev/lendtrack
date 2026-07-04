@@ -23,6 +23,10 @@ export interface Prestamo {
   consecutivo: number;
   fecha: Date;
   monto: number;
+  capital: number;
+  interes: number;
+  cuotas: number;
+  periodicidad: "mensual" | "semanal";
   descripcion: string;
   clienteId: string;
 }

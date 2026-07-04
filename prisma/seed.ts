@@ -53,6 +53,10 @@ async function main() {
     consecutivo: 1,
     fecha: new Date("2024-01-15"),
     monto: 15000,
+    capital: 15000,
+    interes: 0,
+    cuotas: 12,
+    periodicidad: "mensual",
     descripcion: "Business expansion loan",
     clienteId: jane.insertedId.toString(),
   });
@@ -61,6 +65,10 @@ async function main() {
     consecutivo: 2,
     fecha: new Date("2024-03-10"),
     monto: 5000,
+    capital: 5000,
+    interes: 0,
+    cuotas: 6,
+    periodicidad: "mensual",
     descripcion: "Personal loan",
     clienteId: robert.insertedId.toString(),
   });
@@ -69,6 +77,10 @@ async function main() {
     consecutivo: 3,
     fecha: new Date("2024-06-01"),
     monto: 1000,
+    capital: 1000,
+    interes: 0,
+    cuotas: 1,
+    periodicidad: "mensual",
     descripcion: "Emergency fund",
     clienteId: alice.insertedId.toString(),
   });
