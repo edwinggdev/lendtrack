@@ -111,8 +111,11 @@ export async function getPagosByPrestamo(prestamoId: string) {
   const prestamo = await prestamos.findOne({ _id: new ObjectId(prestamoId) });
 
   const clienteMap = new Map(allClientes.map((c) => [c._id!.toString(), c.nombre]));
+  const clienteInfoMap = new Map(allClientes.map((c) => [c._id!.toString(), c]));
   const totalPaid = allPagos.reduce((sum, p) => sum + p.valor, 0);
   const balance = prestamo ? prestamo.capital - totalPaid : 0;
+
+  const clienteInfo = prestamo ? clienteInfoMap.get(prestamo.clienteId) : undefined;
 
   return {
     prestamo: prestamo
@@ -128,6 +131,8 @@ export async function getPagosByPrestamo(prestamoId: string) {
           descripcion: prestamo.descripcion,
           clienteId: prestamo.clienteId,
           clienteNombre: clienteMap.get(prestamo.clienteId) || "Unknown",
+          contacto1: clienteInfo?.contacto1 || "",
+          contacto2: clienteInfo?.contacto2 || "",
           totalPaid,
           balance,
           isFullyPaid: balance <= 0,

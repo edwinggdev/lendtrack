@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateClient } from "@/app/actions";
+import ContactButtons from "@/components/ContactButtons";
 
 interface Props {
   clientId: string;
@@ -39,7 +40,18 @@ export default function EditableClientInfo({ clientId, nombre, direccion, contac
           </button>
         </div>
         <p className="font-body-md text-body-md text-on-surface-variant truncate">{direccion}</p>
-        <p className="font-label-md text-label-md text-on-surface-variant mt-1"><strong>{contacto1}</strong>{contacto2 ? <span> &middot; <strong>{contacto2}</strong></span> : null}</p>
+        <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <div className="flex items-center gap-1">
+            <strong className="font-label-md text-label-md">{contacto1}</strong>
+            <ContactButtons contacto1={contacto1} />
+          </div>
+          {contacto2 && (
+            <div className="flex items-center gap-1">
+              <strong className="font-label-md text-label-md">{contacto2}</strong>
+              <ContactButtons contacto1={contacto2} />
+            </div>
+          )}
+        </div>
         {editing && (
           <div className="mt-3 space-y-3 p-4 bg-surface-container-low rounded-xl border border-outline-variant/30">
             <div className="grid grid-cols-2 gap-3">

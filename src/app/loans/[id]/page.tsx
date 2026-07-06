@@ -1,6 +1,7 @@
 import TopAppBar from "@/components/TopAppBar";
 import BottomNavBar from "@/components/BottomNavBar";
 import EditableLoanInfo from "@/components/EditableLoanInfo";
+import ContactButtons from "@/components/ContactButtons";
 import { getPagosByPrestamo } from "@/app/actions";
 import Link from "next/link";
 
@@ -32,7 +33,10 @@ export default async function LoanDetailPage(props: { params: Promise<{ id: stri
         </Link>
 
         <section>
-          <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">{prestamo.clienteNombre}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">{prestamo.clienteNombre}</h2>
+            <ContactButtons contacto1={prestamo.contacto1} contacto2={prestamo.contacto2} />
+          </div>
           <p className="font-body-md text-body-md text-on-surface-variant">#{String(prestamo.consecutivo).padStart(5, '0')}</p>
           <EditableLoanInfo
             prestamoId={id}
