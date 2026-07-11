@@ -40,7 +40,7 @@ export default function TopAppBar() {
                 <span className="material-symbols-outlined text-on-surface-variant">payments</span>
                 F pago
               </Link>
-              {user?.usuario === "admin" && (
+              {user?.usuario == "admin" && (
                 <Link
                   href="/usuarios"
                   onClick={() => setOpen(false)}
