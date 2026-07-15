@@ -12,7 +12,7 @@ export async function createClient(formData: FormData) {
     nombre: formData.get("full_name") as string,
     direccion: formData.get("address") as string,
     contacto1: formData.get("phone") as string,
-    contacto2: (formData.get("id_number") as string) || "",
+    contacto2: (formData.get("phone2") as string) || "",
   });
 }
 
@@ -164,6 +164,14 @@ export async function createPago(formData: FormData) {
     registradoPor: formData.get("registradoPor") as string || "",
     ...(formaPagoId ? { formaPagoId } : {}),
   });
+}
+
+export async function anularPago(pagoId: string) {
+  const pagos = await getCollection<Pago>("Pago");
+  await pagos.updateOne(
+    { _id: new ObjectId(pagoId) },
+    { $set: { descripcion: "ANULADO" } }
+  );
 }
 
 export async function getClientById(id: string) {

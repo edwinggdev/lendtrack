@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import TopAppBar from "@/components/TopAppBar";
 import BottomNavBar from "@/components/BottomNavBar";
+import { useAuth } from "@/components/AuthProvider";
+import { anularPago } from "@/app/actions";
 
 interface Payment {
   _id: string;
@@ -18,10 +20,12 @@ interface Payment {
 const PAGE_SIZE = 20;
 
 export default function PaymentsPage() {
+  const { user } = useAuth();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [dbError, setDbError] = useState(false);
+  const [anularTarget, setAnularTarget] = useState<Payment | null>(null);
 
   useEffect(() => {
     fetch("/api/pagos")
@@ -89,7 +93,7 @@ export default function PaymentsPage() {
                 <span className="mt-0.5 px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-md font-label-md text-label-md font-bold tabular-nums">#{String(p.consecutivo).padStart(5, '0')}</span>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-title-md text-title-md text-on-surface truncate">{p.clienteNombre}</h3>
-                  <p className="font-label-md text-label-md text-on-surface-variant truncate">{p.descripcion}</p>
+                  <p className={`font-label-md text-label-md truncate ${p.descripcion === "ANULADO" ? "text-error font-bold" : "text-on-surface-variant"}`}>{p.descripcion}</p>
                 </div>
                 <span className="shrink-0 px-2 py-1 bg-green-100 text-green-700 rounded text-[10px] font-bold uppercase tracking-wider">
                   ${p.valor.toLocaleString("en-US", { minimumFractionDigits: 2 })}
@@ -106,6 +110,18 @@ export default function PaymentsPage() {
               <div className="flex items-center gap-1 mt-2">
                 <span className="material-symbols-outlined text-[14px] text-on-surface-variant">person</span>
                 <p className="font-label-md text-label-md text-on-surface-variant">{p.registradoPor || "—"}</p>
+                {user?.usuario === "admin" && p.descripcion !== "ANULADO" && (
+                  <button
+                    onClick={() => setAnularTarget(p)}
+                    className="ml-auto text-error hover:opacity-70 transition-opacity flex items-center gap-0.5 font-label-md text-label-md"
+                  >
+                    <span className="material-symbols-outlined text-sm">block</span>
+                    Anular
+                  </button>
+                )}
+                {p.descripcion === "ANULADO" && (
+                  <span className="ml-auto text-error font-bold font-label-md text-label-md">ANULADO</span>
+                )}
               </div>
             </div>
           ))}
@@ -144,6 +160,69 @@ export default function PaymentsPage() {
         )}
 
         
+        {anularTarget && (
+          <div
+            className="fixed inset-0 z-[60] bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-margin-mobile"
+            onClick={() => setAnularTarget(null)}
+          >
+            <div
+              className="bg-surface-container-lowest rounded-2xl p-stack-lg w-full max-w-xs"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-16 h-16 bg-error-container text-on-error-container rounded-full flex items-center justify-center mx-auto mb-stack-md">
+                <span className="material-symbols-outlined text-[40px]">warning</span>
+              </div>
+              <h3 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2 text-center">Anular Pago</h3>
+              <p className="font-body-md text-body-md text-on-surface-variant mb-4 text-center">
+                ¿Está seguro de anular este pago?
+              </p>
+              <div className="bg-surface-container-low rounded-xl p-4 space-y-2 mb-stack-lg">
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">#</span>
+                  <span className="font-title-md text-title-md text-on-surface tabular-nums">#{String(anularTarget.consecutivo).padStart(5, '0')}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">Cliente</span>
+                  <span className="font-title-md text-title-md text-on-surface">{anularTarget.clienteNombre}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">Monto</span>
+                  <span className="font-title-md text-title-md text-on-surface">${anularTarget.valor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">Registrado por</span>
+                  <span className="font-title-md text-title-md text-on-surface">{anularTarget.registradoPor || "—"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">Fecha</span>
+                  <span className="font-title-md text-title-md text-on-surface">{new Date(anularTarget.fecha).toLocaleDateString("es-MX")}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-label-md text-label-md text-on-surface-variant">Descripción</span>
+                  <span className="font-title-md text-title-md text-error font-bold">ANULADO</span>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setAnularTarget(null)}
+                  className="flex-1 h-touch-target bg-surface-container-high text-on-surface rounded-lg font-title-md"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={async () => {
+                    await anularPago(anularTarget._id);
+                    setPayments((prev) => prev.map((p) => p._id === anularTarget._id ? { ...p, descripcion: "ANULADO" } : p));
+                    setAnularTarget(null);
+                  }}
+                  className="flex-1 h-touch-target bg-error text-on-error rounded-lg font-title-md"
+                >
+                  Anular
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <BottomNavBar />
     </>

@@ -118,51 +118,62 @@ export default function NewLoan() {
               )}
             </div>
 
-            <div className="space-y-1">
-              <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" htmlFor="monto">
-                Monto ($)
-              </label>
-              {monto && interest && (
-                <p className="font-headline-lg-mobile text-headline-lg-mobile text-secondary font-bold">
-                  Total: ${(parseFloat(monto) + (parseFloat(monto) * parseFloat(interest) / 100)).toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                </p>
-              )}
-              <div className="relative rounded-lg border border-outline-variant transition-all focus-within:border-secondary focus-within:shadow-[0_0_0_4px_rgba(49,107,243,0.1)]">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">attach_money</span>
-                <input
-                  className="w-full h-touch-target pl-12 pr-4 bg-transparent border-none rounded-lg focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder:text-outline-variant"
-                  id="monto"
-                  name="monto"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  required
-                  placeholder="0.00"
-                  value={monto}
-                  onChange={(e) => setMonto(e.target.value)}
-                />
+            <div className="grid grid-cols-2 gap-gutter">
+              <div className="space-y-1">
+                <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" htmlFor="monto">
+                  Monto ($)
+                </label>
+                <div className="relative rounded-lg border border-outline-variant transition-all focus-within:border-secondary focus-within:shadow-[0_0_0_4px_rgba(49,107,243,0.1)]">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">attach_money</span>
+                  <input
+                    className="w-full h-touch-target pl-12 pr-4 bg-transparent border-none rounded-lg focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder:text-outline-variant"
+                    id="monto"
+                    name="monto"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    required
+                    placeholder="0.00"
+                    value={monto}
+                    onChange={(e) => setMonto(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" htmlFor="interest">
+                  % Interés <span className="text-error">* min 3</span>
+                </label>
+                <div className="relative rounded-lg border border-outline-variant transition-all focus-within:border-secondary focus-within:shadow-[0_0_0_4px_rgba(49,107,243,0.1)]">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">percent</span>
+                  <input
+                    className="w-full h-touch-target pl-12 pr-4 bg-transparent border-none rounded-lg focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder:text-outline-variant"
+                    id="interest"
+                    type="number"
+                    step="0.01"
+                    min="3"
+                    required
+                    placeholder="0"
+                    value={interest}
+                    onChange={(e) => { setinterest(e.target.value); setError(""); }}
+                  />
+                </div>
+                {error && <p className="font-body-md text-body-md text-error mt-1">{error}</p>}
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" htmlFor="interest">
-                Percentage (%) <span className="text-error">* min 3</span>
+              <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                Monto Total (Capital)
               </label>
-              <div className="relative rounded-lg border border-outline-variant transition-all focus-within:border-secondary focus-within:shadow-[0_0_0_4px_rgba(49,107,243,0.1)]">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">&nbsp;</span>
+              <div className="relative rounded-lg border border-outline-variant bg-surface-container-low">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">payments</span>
                 <input
-                  className="w-full h-touch-target pl-12 pr-4 bg-transparent border-none rounded-lg focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder:text-outline-variant"
-                  id="interest"
-                  type="number"
-                  step="0.01"
-                  min="3"
-                  required
-                  placeholder="0"
-                  value={interest}
-                  onChange={(e) => { setinterest(e.target.value); setError(""); }}
+                  className="w-full h-touch-target pl-12 pr-4 bg-transparent border-none rounded-lg focus:ring-0 font-body-lg text-body-lg text-on-surface font-bold"
+                  type="text"
+                  readOnly
+                  value={monto && interest ? `$${(parseFloat(monto) + (parseFloat(monto) * parseFloat(interest) / 100)).toLocaleString("en-US", { minimumFractionDigits: 2 })}` : "$0.00"}
                 />
               </div>
-              {error && <p className="font-body-md text-body-md text-error mt-1">{error}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-gutter">
